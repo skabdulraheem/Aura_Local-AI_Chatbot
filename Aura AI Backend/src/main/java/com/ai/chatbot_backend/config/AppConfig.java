@@ -1,0 +1,54 @@
+package com.ai.chatbot_backend.config;
+
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.config.RequestConfig;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.core5.util.Timeout;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.RestTemplate;
+
+@Configuration
+public class AppConfig {
+
+    @Value("${spring.http.client.connect-timeout:30000}")
+    private int connectTimeout;
+
+    @Value("${spring.http.client.read-timeout:60000}")
+    private int readTimeout;
+
+    @Value("${ollama.api.url:http://localhost:11434}")
+    private String ollamaApiUrl;
+
+    @Value("${ollama.api.model:phi3}")
+    private String ollamaModel;
+
+    @Bean
+    public RestTemplate restTemplate() {
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setConnectTimeout(Timeout.ofMilliseconds(connectTimeout))
+                .setResponseTimeout(Timeout.ofMilliseconds(readTimeout))
+                .build();
+
+        HttpClient httpClient = HttpClientBuilder.create()
+                .setDefaultRequestConfig(requestConfig)
+                .build();
+
+        HttpComponentsClientHttpRequestFactory factory =
+                new HttpComponentsClientHttpRequestFactory(httpClient);
+
+        return new RestTemplate(factory);
+    }
+
+    @Bean
+    public String ollamaApiUrl() {
+        return ollamaApiUrl;
+    }
+
+    @Bean
+    public String ollamaModel() {
+        return ollamaModel;
+    }
+}
