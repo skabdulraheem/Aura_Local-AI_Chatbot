@@ -90,6 +90,6 @@ The Aura AI Chatbot follows a structured backend flow to process user queries an
 - 🔗 Replace local Ollama with hosted AI APIs (if needed)  
 
 ---
-## 👨‍💻 Author **Azeez** 
+## 👨‍💻 Author **Raheem** 
 📌 Open to opportunities in **Java Full Stack Development** --- 
 ## ⭐ Support If you like this project, give it a ⭐ on GitHub!
